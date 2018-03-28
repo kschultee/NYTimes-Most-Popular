@@ -45,16 +45,18 @@ class Story extends React.Component {
       return (
         <div className = 'resultlist'>
           {results.map(result => (
-            <div className='media-object' key={result}>
+            <div className='media-object' key = {result}>
               <div className='media-object-section'>
                 <div className='thumbnail'>
-                  {result.multimedia.length > 0 && <img src={result.multimedia[0].url} />}
+                  {result.multimedia.length > 0 ? <img src={result.multimedia[0].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
                 </div>
               </div>
-              <div className='media-object-section'>
-                <h4>{result.title}</h4>
-                <p>{result.abstract}</p>
-              </div>
+              <a href={result.url}>
+                <div className='media-object-section'>
+                  <h4>{result.title}</h4>
+                  <p>{result.abstract}</p>
+                </div>
+              </a>
             </div>
           ))}
         </div>
