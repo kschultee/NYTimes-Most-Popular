@@ -2,9 +2,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const apiURL = 'https://api.nytimes.com/svc/topstories/v2/home.json'
+const SECTIONS = ['home', 'opinion', 'world', 'national', 'politics', 'upshot', 'nyregion', 'business', 'technology', 'science', 'health', 'sports', 'arts', 'books', 'movies', 'theater', 'sundayreview', 'fashion', 'tmagazine', 'food', 'travel', 'magazine', 'food', 'travel', 'magazine', 'realestatem', 'automobiles', 'obituaries', 'insider']
+const apiURL = 'https://api.nytimes.com/svc/topstories/v2/'
+const apiSECTION = 'home.json'
 const apiKEY = '?api-key=af2ca657204e4b729d70302b9a7c17a2'
-const buildAPI = new Request(apiURL + apiKEY)
+const buildAPI = new Request(apiURL + apiSECTION + apiKEY)
+class Catagory extends React.Component {
+  render() {
+    const section = this.props.section
+    return (
+      <div>
+        <select id='section' onChange={this.handleChange} value={this.state.value}> {
+          SECTIONS.forEach(section =>
+            document.getElementById('selection').add(
+              new Option(SECTIONS, SECTIONS)
+            )
+          )
+        }
+        </select>
+      </div>
+    )
+  }
+}
 class Story extends React.Component {
   constructor(props) {
     super(props)
