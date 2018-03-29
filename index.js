@@ -7,16 +7,13 @@ const apiURL = 'https://api.nytimes.com/svc/topstories/v2/'
 const apiSECTION = 'home.json'
 const apiKEY = '?api-key=af2ca657204e4b729d70302b9a7c17a2'
 const buildAPI = new Request(apiURL + apiSECTION + apiKEY)
-class Catagory extends React.Component {
+class Select extends React.Component {
   render() {
-    const section = this.props.section
     return (
       <div>
-        <select id='section' onChange={this.handleChange} value={this.state.value}> {
-          SECTIONS.forEach(section =>
-            document.getElementById('selection').add(
-              new Option(SECTIONS, SECTIONS)
-            )
+        <select id='section'> {
+          SECTIONS.map(section =>
+            <option key={section} value={section}>{section}</option>
           )
         }
         </select>
@@ -83,4 +80,29 @@ class Story extends React.Component {
     }
   }
 }
-export default Story
+class FilteredPage extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      section: 'home'
+    }
+  }
+  render() {
+    return (
+      <div>
+        <nav className='top-bar' data-topbar>
+          <div className='name'>
+            <h1>New York Times Most Popular Stories</h1>
+          </div>
+          <div className='filter'>
+            <Select />
+          </div>
+        </nav>
+        <div>
+          <Story />
+        </div>
+      </div>
+    )
+  }
+}
+export default FilteredPage
