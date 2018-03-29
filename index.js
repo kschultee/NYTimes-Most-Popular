@@ -11,9 +11,9 @@ class Select extends React.Component {
   render() {
     return (
       <div>
-        <select id='section'> {
-          SECTIONS.map(section =>
-            <option key={section} value={section}>{section}</option>
+        <select id='section' onChange={this.props.onSelectChange} style = {{width: 400}}> {
+          SECTIONS.map((section, key) =>
+            <option key={key} value={section}>{section}</option>
           )
         }
         </select>
@@ -21,85 +21,71 @@ class Select extends React.Component {
     )
   }
 }
-class Story extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      error: null,
-      isLoaded: false,
-      results: []
-    }
-  }
-  componentDidMount() {
-    fetch(buildAPI)
-      .then(response => response.json())
-      .then(
-        (response) => {
-          console.log(response)
-          this.setState({
-            isLoaded: true,
-            results: response.results
-          })
-        },
-        (error) => {
-          this.setState({
-            isLoaded: false,
-            error
-          })
-        }
-      )
-  }
+class Article extends React.Component {
   render() {
-    const {error, isLoaded, results} = this.state
-    if (error) {
-      return <div>Error: {error.message}</div>
-    }
-    else if (!isLoaded) {
-      return <div>Loading Data...</div>
-    }
-    else {
-      return (
-        <div className = 'resultlist'>
-          {results.map(result => (
-            <div className='media-object' key = {result.title}>
-              <div className='media-object-section'>
-                <div className='thumbnail'>
-                  {result.multimedia.length > 0 ? <img src={result.multimedia[0].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
-                </div>
+    console.log(this.props.articles)
+    return (
+      <div className = 'resultlist'>
+        {this.props.articles.map(result => (
+          <div className='media-object' key = {result.title}>
+            <div className='media-object-section'>
+              <div className='thumbnail'>
+                {result.multimedia.length > 0 ? <img src={result.multimedia[0].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
               </div>
-              <a href={result.url}>
-                <div className='media-object-section'>
-                  <span><h4>{result.title}</h4></span><span><h6>{result.byline}</h6></span>
-                  <p>{result.abstract}</p>
-                </div>
-              </a>
             </div>
-          ))}
-        </div>
-      )
-    }
+            <a href={result.url}>
+              <div className='media-object-section'>
+                <span><h4>{result.title}</h4></span><span><h6>{result.byline}</h6></span>
+                <p>{result.abstract}</p>
+              </div>
+            </a>
+          </div>
+        ))}
+      </div>
+    )
   }
 }
 class FilteredPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      section: 'home'
+      result: []
     }
+    this.handleSelectChange = this.handleSelectChange.bind(this)
+  }
+  handleSelectChange(e) {
+    fetch(apiURL + e.target.value + '.json' + apiKEY)
+      .then(res => res.json())
+      .then(res =>
+        this.setState({
+          result: res.results
+        }))
+  }
+  componentDidMount() {
+    fetch(buildAPI)
+      .then(res => res.json())
+      .then(res =>
+        this.setState({
+          result: res.results
+        }))
   }
   render() {
     return (
       <div>
-        <nav className='top-bar' data-topbar>
+        <div className='top-bar' data-topbar>
           <div className='name'>
             <h1>New York Times Most Popular Stories</h1>
           </div>
           <div className='filter'>
-            <Select />
+            <Select
+              onSelectChange={this.handleSelectChange}
+            />
           </div>
-        </nav>
+        </div>
         <div>
-          <Story />
+          <Article
+            articles={this.state.result}
+          />
         </div>
       </div>
     )
