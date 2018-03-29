@@ -10,14 +10,14 @@ const buildAPI = new Request(apiURL + apiSECTION + apiKEY)
 class Select extends React.Component {
   render() {
     return (
-      <div>
+      <span>
         <select id='section' onChange={this.props.onSelectChange} style = {{width: 400}}> {
           SECTIONS.map((section, key) =>
             <option key={key} value={section}>{section}</option>
           )
         }
         </select>
-      </div>
+      </span>
     )
   }
 }
@@ -25,22 +25,25 @@ class Article extends React.Component {
   render() {
     console.log(this.props.articles)
     return (
-      <div className = 'resultlist'>
-        {this.props.articles.map(result => (
-          <div className='media-object' key = {result.title}>
-            <div className='media-object-section'>
-              <div className='thumbnail'>
-                {result.multimedia.length > 0 ? <img src={result.multimedia[0].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
-              </div>
+      <div className = 'grid-container'>
+        <div className='grid-x grid-padding-x small-up-2 medium-up-1'>
+          {this.props.articles.map(result => (
+            <div className='cell' key = {result.title}>
+              <a href={result.url}>
+                <div className='card'>
+                  <div className='card-divider'>
+                    <h4>{result.title}</h4>
+                    <h6>{result.byline}</h6>
+                  </div>
+                  {result.multimedia.length > 0 ? <img src={result.multimedia[4].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
+                  <div className='card-section'>
+                    <p>{result.abstract}</p>
+                  </div>
+                </div>
+              </a>
             </div>
-            <a href={result.url}>
-              <div className='media-object-section'>
-                <span><h4>{result.title}</h4></span><span><h6>{result.byline}</h6></span>
-                <p>{result.abstract}</p>
-              </div>
-            </a>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     )
   }
@@ -72,14 +75,15 @@ class FilteredPage extends React.Component {
   render() {
     return (
       <div>
-        <div className='top-bar' data-topbar>
-          <div className='name'>
-            <h1>New York Times Most Popular Stories</h1>
-          </div>
-          <div className='filter'>
-            <Select
-              onSelectChange={this.handleSelectChange}
-            />
+        <div className='top-bar align-center' data-topbar>
+          <div className='top-bar align-center'>
+            <span className='name'>
+              <h1>New York Times Most Popular Stories <span className='filter'>
+                <Select
+                  onSelectChange={this.handleSelectChange}
+                />
+              </span></h1>
+            </span>
           </div>
         </div>
         <div>
