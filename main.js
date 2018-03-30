@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Story from './index'
+import FilteredPage from './index'
 
 ReactDOM.render(
-  <Story />,
+  <FilteredPage />,
   document.getElementById('root')
 )
