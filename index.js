@@ -7,6 +7,11 @@ const apiURL = 'https://api.nytimes.com/svc/topstories/v2/'
 const apiSECTION = 'home.json'
 const apiKEY = '?api-key=af2ca657204e4b729d70302b9a7c17a2'
 const buildAPI = new Request(apiURL + apiSECTION + apiKEY)
+class APInput extends React.Component {
+  render() {
+    return <APInput />
+  }
+}
 class Select extends React.Component {
   render() {
     return (
