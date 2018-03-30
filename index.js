@@ -23,27 +23,26 @@ class Select extends React.Component {
 }
 class Article extends React.Component {
   render() {
-    console.log(this.props.articles)
     return (
-      <div className = 'grid-container'>
-        <div className='grid-x grid-padding-x small-up-2 medium-up-1'>
-          {this.props.articles.map(result => (
-            <div className='cell' key = {result.title}>
+      <div className = 'resultlist'>
+        {this.props.articles.map(result => (
+          <div className='callout' key = {result.title}>
+            <div className='media-object'>
+              <div className='media-object-section'>
+                <div className='thumbnail'>
+                  {result.multimedia.length > 0 ? <img src={result.multimedia[0].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
+                </div>
+              </div>
               <a href={result.url}>
-                <div className='card'>
-                  <div className='card-divider'>
-                    <h4>{result.title}</h4>
-                    <h6>{result.byline}</h6>
-                  </div>
-                  {result.multimedia.length > 0 ? <img src={result.multimedia[4].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
-                  <div className='card-section'>
-                    <p>{result.abstract}</p>
-                  </div>
+                <div className='media-object-section'>
+                  <h4>{result.title}</h4>
+                  <h6>{result.byline}</h6>
+                  <p>{result.abstract}</p>
                 </div>
               </a>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     )
   }
@@ -75,8 +74,8 @@ class FilteredPage extends React.Component {
   render() {
     return (
       <div>
-        <div className='top-bar align-center' data-topbar>
-          <div className='top-bar align-center'>
+        <div className='top-bar' data-topbar>
+          <div className='top-bar-left'>
             <span className='name'>
               <h1>New York Times Most Popular Stories <span className='filter'>
                 <Select
