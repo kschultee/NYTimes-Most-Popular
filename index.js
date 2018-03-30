@@ -9,7 +9,14 @@ const apiKEY = '?api-key=af2ca657204e4b729d70302b9a7c17a2'
 const buildAPI = new Request(apiURL + apiSECTION + apiKEY)
 class APInput extends React.Component {
   render() {
-    return <APInput />
+    return (
+      <div className="input-group">
+        <input className="input-group-field" type="text" placeholder='API Key here...'></input>
+        <div className="input-group-button">
+          <input type="submit" className="button" value="Submit"></input>
+        </div>
+      </div>
+    )
   }
 }
 class Select extends React.Component {
@@ -81,13 +88,13 @@ class FilteredPage extends React.Component {
       <div>
         <div className='top-bar' data-topbar>
           <div className='top-bar-left'>
-            <span className='name'>
-              <h1>New York Times Most Popular Stories <span className='filter'>
-                <Select
-                  onSelectChange={this.handleSelectChange}
-                />
-              </span></h1>
+            <h1 style = {{display: 'inline'}}>New York Times Most Popular Stories</h1>
+            <span className='filter'>
+              <Select
+                onSelectChange={this.handleSelectChange}
+              />
             </span>
+            <APInput />
           </div>
         </div>
         <div>
