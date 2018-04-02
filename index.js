@@ -55,7 +55,7 @@ class Article extends React.Component {
               </a>
             </div>
             <button type='button' className='button success' style={{margin: 0}}>Save</button>
-            <a className='button' href={result.url}>Link</a>
+            <a className='button' href={result.url}>View</a>
           </div>
         ))}
       </div>
