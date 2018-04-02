@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const SECTIONS = ['home', 'opinion', 'world', 'national', 'politics', 'upshot', 'nyregion', 'business', 'technology', 'science', 'health', 'sports', 'arts', 'books', 'movies', 'theater', 'sundayreview', 'fashion', 'tmagazine', 'food', 'travel', 'magazine', 'food', 'travel', 'magazine', 'realestatem', 'automobiles', 'obituaries', 'insider']
+const SECTIONS = ['home', 'opinion', 'world', 'national', 'politics', 'upshot', 'nyregion', 'business', 'technology', 'science', 'health', 'sports', 'arts', 'books', 'movies', 'theater', 'sundayreview', 'fashion', 'tmagazine', 'food', 'travel', 'magazine', 'food', 'travel', 'magazine', 'realestatem', 'automobiles', 'obituaries', 'insider', 'saved']
 const apiURL = 'https://api.nytimes.com/svc/topstories/v2/'
 const apiSECTION = 'home.json'
 const apiKEY = '?api-key='
@@ -39,7 +39,7 @@ class Article extends React.Component {
     return (
       <div className = 'resultlist'>
         {this.props.articles.map(result => (
-          <div className='callout' key = {result.title}>
+          <div className='callout' id={result.title} key = {result.title}>
             <div className='media-object'>
               <div className='media-object-section'>
                 <div className='thumbnail'>
@@ -54,10 +54,17 @@ class Article extends React.Component {
                 </div>
               </a>
             </div>
+            <button type='button' className='button success' style={{margin: 0}}>Save</button>
+            <a className='button' href={result.url}>Link</a>
           </div>
         ))}
       </div>
     )
+  }
+}
+class Saved extends React.Component {
+  render() {
+    return null
   }
 }
 class FilteredPage extends React.Component {
@@ -88,12 +95,20 @@ class FilteredPage extends React.Component {
       )
   }
   handleSelectChange(e) {
-    fetch(apiURL + e.target.value + '.json' + apiKEY + this.state.apiInput)
-      .then(res => res.json())
-      .then(res =>
-        this.setState({
-          result: res.results
-        }))
+    console.log(e.target.value)
+    if (e.target.value === 'saved') {
+      this.setState({
+        result: []
+      })
+    }
+    else {
+      fetch(apiURL + e.target.value + '.json' + apiKEY + this.state.apiInput)
+        .then(res => res.json())
+        .then(res =>
+          this.setState({
+            result: res.results
+          }))
+    }
   }
   render() {
     return (
@@ -101,21 +116,22 @@ class FilteredPage extends React.Component {
         <div className='top-bar' data-topbar>
           <div className='top-bar-left'>
             <h1 style = {{display: 'inline'}}>New York Times Most Popular Stories</h1>
+            <APInput
+              handleChange={this.handleInputChange}
+              handleSubmit={this.handleInputSubmit}
+            />
             <span className='filter'>
               <Select
                 onSelectChange={this.handleSelectChange}
               />
             </span>
-            <APInput
-              handleChange={this.handleInputChange}
-              handleSubmit={this.handleInputSubmit}
-            />
           </div>
         </div>
         <div>
           <Article
             articles={this.state.result}
           />
+          <Saved />
         </div>
       </div>
     )
