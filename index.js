@@ -8,18 +8,8 @@ const apiSECTION = 'home.json'
 const apiKEY = '?api-key='
 const buildAPI = (apiURL + apiSECTION + apiKEY)
 let myStorage = window.localStorage
-let stored = []
-window.stored = stored
 Storage.prototype.setObject = function (key, value) {
   this.setItem(key, JSON.stringify(value))
-}
-Storage.prototype.pushObject = function (key) {
-  var value = this.getItem(key)
-  console.log(key)
-  if (!stored.includes(key)) {
-    stored.push(value)
-  }
-  console.log(stored)
 }
 class APInput extends React.Component {
   render() {
@@ -78,24 +68,25 @@ class Article extends React.Component {
 }
 class Saved extends React.Component {
   render() {
-    return stored.map(result =>
-      <div className='callout' id={result.title} key = {result.title}>
-        <div className='media-object'>
-          <div className='media-object-section'>
-            <div className='thumbnail'>
-              {result.multimedia.length > 0 ? <img src={result.multimedia[0].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
-            </div>
-          </div>
-          <a href={result.url}>
-            <div className='media-object-section'>
-              <h4>{result.title}</h4>
-              <h6>{result.byline}</h6>
-              <p>{result.abstract}</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    )
+    return null
+    // this.props..map(result =>
+    //   <div className='callout' id={result.title} key = {result.title}>
+    //     <div className='media-object'>
+    //       <div className='media-object-section'>
+    //         <div className='thumbnail'>
+    //           {result.multimedia.length > 0 ? <img src={result.multimedia[0].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
+    //         </div>
+    //       </div>
+    //       <a href={result.url}>
+    //         <div className='media-object-section'>
+    //           <h4>{result.title}</h4>
+    //           <h6>{result.byline}</h6>
+    //           <p>{result.abstract}</p>
+    //         </div>
+    //       </a>
+    //     </div>
+    //   </div>
+    // )
   }
 }
 class FilteredPage extends React.Component {
@@ -144,7 +135,9 @@ class FilteredPage extends React.Component {
   }
   handleQueue(result) {
     myStorage.setObject(result.title, result)
-    myStorage.pushObject(result.title)
+    for (var i = 0; i < localStorage.length; i++) {
+      console.log(JSON.parse(localStorage.getItem(localStorage.key(i))))
+    }
   }
   render() {
     return (
