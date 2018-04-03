@@ -7,6 +7,20 @@ const apiURL = 'https://api.nytimes.com/svc/topstories/v2/'
 const apiSECTION = 'home.json'
 const apiKEY = '?api-key='
 const buildAPI = (apiURL + apiSECTION + apiKEY)
+let myStorage = window.localStorage
+let stored = []
+window.stored = stored
+Storage.prototype.setObject = function (key, value) {
+  this.setItem(key, JSON.stringify(value))
+}
+Storage.prototype.pushObject = function (key) {
+  var value = this.getItem(key)
+  console.log(key)
+  if (!stored.includes(key)) {
+    stored.push(value)
+  }
+  console.log(stored)
+}
 class APInput extends React.Component {
   render() {
     return (
@@ -54,7 +68,7 @@ class Article extends React.Component {
                 </div>
               </a>
             </div>
-            <button type='button' className='button success' style={{margin: 0}}>Save</button>
+            <button type='button' className='button success' onClick={ () => this.props.onQueueCall(result)} style={{margin: 0}}>Save</button>
             <a className='button' href={result.url}>View</a>
           </div>
         ))}
@@ -64,7 +78,24 @@ class Article extends React.Component {
 }
 class Saved extends React.Component {
   render() {
-    return null
+    return stored.map(result =>
+      <div className='callout' id={result.title} key = {result.title}>
+        <div className='media-object'>
+          <div className='media-object-section'>
+            <div className='thumbnail'>
+              {result.multimedia.length > 0 ? <img src={result.multimedia[0].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
+            </div>
+          </div>
+          <a href={result.url}>
+            <div className='media-object-section'>
+              <h4>{result.title}</h4>
+              <h6>{result.byline}</h6>
+              <p>{result.abstract}</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    )
   }
 }
 class FilteredPage extends React.Component {
@@ -77,6 +108,7 @@ class FilteredPage extends React.Component {
     this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputSubmit = this.handleInputSubmit.bind(this)
+    this.handleQueue = this.handleQueue.bind(this)
   }
   handleInputChange(e) {
     this.setState({
@@ -110,6 +142,10 @@ class FilteredPage extends React.Component {
           }))
     }
   }
+  handleQueue(result) {
+    myStorage.setObject(result.title, result)
+    myStorage.pushObject(result.title)
+  }
   render() {
     return (
       <div>
@@ -130,8 +166,10 @@ class FilteredPage extends React.Component {
         <div>
           <Article
             articles={this.state.result}
+            onQueueCall={this.handleQueue}
           />
-          <Saved />
+          <Saved
+          />
         </div>
       </div>
     )
