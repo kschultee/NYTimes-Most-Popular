@@ -177,7 +177,6 @@ class FilteredPage extends React.Component {
             articles={this.state.result}
             onSaveCall={this.handleQueue}
             onRemoveCall={this.handleRemove}
-            isSaved={this.state.isSaved}
           />
           <Saved
             saved={this.state.saved}
