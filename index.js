@@ -53,6 +53,7 @@ class Article extends React.Component {
                 <p>{result.abstract}</p>
               </div>
             </div>
+            <button type='button' className='button alert' onClick={ () => this.props.onRemoveCall(result)} style={{margin: 0}}>Clear</button>
             <button type='button' className='button success' onClick={ () => this.props.onSaveCall(result)} style={{margin: 0}}>Save</button>
             <a className='button' href={result.url}>View</a>
           </div>
@@ -177,6 +178,8 @@ class FilteredPage extends React.Component {
             articles={this.state.result}
             onSaveCall={this.handleQueue}
             onRemoveCall={this.handleRemove}
+            isSaved={this.state.isSaved}
+            saved={this.state.saved}
           />
           <Saved
             saved={this.state.saved}
