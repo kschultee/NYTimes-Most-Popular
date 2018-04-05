@@ -7,7 +7,7 @@ const apiURL = 'https://api.nytimes.com/svc/topstories/v2/'
 const apiSECTION = 'home.json'
 const apiKEY = '?api-key='
 const buildAPI = (apiURL + apiSECTION + apiKEY)
-let myStorage = window.localStorage
+const myStorage = window.localStorage
 class APInput extends React.Component {
   render() {
     return (
@@ -137,7 +137,7 @@ class FilteredPage extends React.Component {
     myStorage.setItem(result.title, JSON.stringify(result))
     this.setState({
       saved: Object.keys(myStorage).map(result =>
-        JSON.parse(localStorage.getItem(result))
+        JSON.parse(myStorage.getItem(result))
       )
     })
   }
@@ -145,14 +145,14 @@ class FilteredPage extends React.Component {
     myStorage.removeItem(result.title)
     this.setState({
       saved: Object.keys(myStorage).map(result =>
-        JSON.parse(localStorage.getItem(result))
+        JSON.parse(myStorage.getItem(result))
       )
     })
   }
   componentDidMount() {
     this.setState({
       saved: Object.keys(myStorage).map(result =>
-        JSON.parse(localStorage.getItem(result))
+        JSON.parse(myStorage.getItem(result))
       )
     })
   }
