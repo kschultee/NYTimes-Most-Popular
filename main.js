@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import APInput from './components/APInput.js'
@@ -6,7 +5,6 @@ import Article from './components/Article.js'
 import Saved from './components/Saved.js'
 import Select from './components/Select.js'
 
-const SECTIONS = ['home', 'opinion', 'world', 'national', 'politics', 'upshot', 'nyregion', 'business', 'technology', 'science', 'health', 'sports', 'arts', 'books', 'movies', 'theater', 'sundayreview', 'fashion', 'tmagazine', 'food', 'travel', 'magazine', 'food', 'travel', 'magazine', 'realestatem', 'automobiles', 'obituaries', 'insider', 'saved']
 const apiURL = 'https://api.nytimes.com/svc/topstories/v2/'
 const apiSECTION = 'home.json'
 const apiKEY = '?api-key='
@@ -60,21 +58,16 @@ class FilteredPage extends React.Component {
   }
   handleQueue(result) {
     myStorage.setItem(result.title, JSON.stringify(result))
-    this.setState({
-      saved: Object.keys(myStorage).map(result =>
-        JSON.parse(myStorage.getItem(result))
-      )
-    })
+    this.loadSaved()
   }
   handleRemove(result) {
     myStorage.removeItem(result.title)
-    this.setState({
-      saved: Object.keys(myStorage).map(result =>
-        JSON.parse(myStorage.getItem(result))
-      )
-    })
+    this.loadSaved()
   }
   componentDidMount() {
+    this.loadSaved()
+  }
+  loadSaved() {
     this.setState({
       saved: Object.keys(myStorage).map(result =>
         JSON.parse(myStorage.getItem(result))
