@@ -1,4 +1,5 @@
 import React from 'react'
+import ArticleImage from './ArticleImage.js'
 
 class Article extends React.Component {
   render() {
@@ -9,7 +10,7 @@ class Article extends React.Component {
             <div className='media-object'>
               <div className='media-object-section'>
                 <div className='thumbnail'>
-                  {result.multimedia.length > 0 ? <img src={result.multimedia[0].url} /> : <img src='img/NYT_thumbnail.jpg'/>}
+                  <ArticleImage img={result.multimedia}/>
                 </div>
               </div>
               <div className='media-object-section'>
